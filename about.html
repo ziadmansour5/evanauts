@@ -31,27 +31,281 @@
 
         h1 { color: #00d4ff; text-align: center; }
         p { font-size: 16px; line-height: 1.6; color: #eaf4ff; }
+
+        /* New styles for logo and team members */
+        .logo-placeholder {
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px; /* Adjust size as needed */
+            height: auto;
+        }
+
+        .project-image {
+            display: block;
+            margin: 30px auto;
+            max-width: 60%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .project-image:hover {
+            transform: scale(1.05);
+        }
+
+        .team-section {
+            margin-top: 40px;
+        }
+
+        .team-section h2 {
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .team-member:hover {
+            transform: scale(1.05); /* Zoom animation on hover */
+            box-shadow: 0 6px 18px rgba(0, 212, 255, 0.3);
+        }
+
+        .team-member img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .team-member .name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .team-member .role {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .supervisor-section {
+            margin-top: 40px;
+            text-align: center;
+            
+        }
+
+        .supervisor-section h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            
+        }
+
+        .supervisor {
+            
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 400px;
+        }
+
+        .supervisor:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0, 212, 255, 0.3);
+        }
+
+        .supervisor img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+
+        .supervisor .name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .supervisor .role {
+            font-size: 16px;
+            color: #ddd;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">Ultra Pro Charger Dashboard</div>
         <ul class="nav-links">
-            <li><a href="dashboard.html">Home</a></li>
-            <li><a href="about.html" class="active">About Us</a></li>
-            <li id="owner-tab"><a href="owner_panel.html">Owner Panel</a></li>
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/about" class="active">About Us</a></li>
+            <li id="owner-tab"><a href="/owner_panel">Owner Panel</a></li>
         </ul>
     </nav>
     <div class="content">
         <h1>About Us</h1>
-        <p>Welcome! We are the Ultra Pro Charger team, specializing in developing smart battery charging systems. Our goal is to provide reliable and efficient solutions for energy management.</p>
-        <p>You can add more content here, such as company history, team, or vision.</p>
-        <!-- Add any additional HTML code here -->
+        <!-- Logo placeholder - change the src to your logo path -->
+        <!-- <img src="path/to/your/logo.png" alt="Evanatus Logo" class="logo-placeholder"> -->
+
+        <!-- Provided text added here -->
+        <h2>Evanatus Team – Shaping the Future of Wireless EV Charging</h2>
+        <p>Imagine a world with no messy cables, no waiting in long lines at charging stations, and no wasted time. A world where you simply park your electric vehicle, and it charges automatically—wirelessly—while you go on with your day.</p>
+        <p>This is the vision that brought the Evanatus Team to life. We are not just a team; we are a group of dreamers and innovators determined to push the boundaries of clean energy and smart transportation. Our mission is to develop a fully automated wireless charging system for electric vehicles—a solution that could revolutionize the way the world thinks about mobility and sustainability.</p>
+        <p>If brought to life, this technology will save time, eliminate hassle, and most importantly, take us a step closer to a greener, cleaner, and smarter future.</p>
+        <p>And what makes it even more special? This journey begins right here at Damietta University, Faculty of Engineering, where a group of passionate students decided to transform an idea into reality—an idea that could leave a lasting impact on the entire world.</p>
+        <p>We may just be at the starting line, but we truly believe that every great innovation starts with a single bold step. And this is ours.</p>
+
+        <!-- Project image -->
+        <img src="data/pro.jpg" alt="Project Image" class="project-image">
+
+        <!-- Team members section -->
+        <div class="team-section">
+            <h2>Our Team</h2>
+            <div class="team-members">
+                <!-- Team member 1 -->
+                <div class="team-member">
+                    <img src="data/Yousif Ahmed Abd El-Fattah.jpg" alt="Member 1">
+                    <div>
+                        <div class="name">Yousif Ahmed Abd El-Fattah</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 2 -->
+                <div class="team-member">
+                    <img src="data/Abderahman Abdo Tafesh.jpg" alt="Member 2">
+                    <div>
+                        <div class="name">Abderahman Abdo Tafesh</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 3 -->
+                <!-- <div class="team-member">
+                    <img src="data/Ahmed Hesham Aboseda.jpg" alt="Member 3">
+                    <div>
+                        <div class="name">Ahmed Hesham Aboseda.</div>
+                    </div>
+                </div> -->
+                <!-- Team member 4 -->
+                <div class="team-member">
+                    <img src="data/Fares Maged Katilo.jpg" alt="Member 4">
+                    <div>
+                        <div class="name">Fares Maged Katilo</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 5 -->
+                <div class="team-member">
+                    <img src="data/Hussein Youssef Abou Al-kheer.jpg" alt="Member 5">
+                    <div>
+                        <div class="name">Hussein Youssef Abou Al-kheer</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 6 -->
+                <div class="team-member">
+                    <img src="data/Moaz Osama El Gohr.jpg" alt="Member 6">
+                    <div>
+                        <div class="name">Moaz Osama El Gohr</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 7 -->
+                <div class="team-member">
+                    <img src="data/Omar Ibrahim Roman.jpg" alt="Member 7">
+                    <div>
+                        <div class="name">Omar Ibrahim Roman</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 8 -->
+                <div class="team-member">
+                    <img src="data/Omar Mahmoud Fetian.jpg" alt="Member 8">
+                    <div>
+                        <div class="name">Omar Mahmoud Fetian</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 9 -->
+                <div class="team-member">
+                    <img src="data/Omar Rabia Salama.jpg" alt="Member 9">
+                    <div>
+                        <div class="name">Omar Rabia Salama</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 10 -->
+                <div class="team-member">
+                    <img src="data/Abd Al-Rhman Reda Abd Al-Ghany.jpg" alt="Member 10">
+                    <div>
+                        <div class="name">Abd Al-Rhman Reda Abd Al-Ghany</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 11 -->
+                <div class="team-member">
+                    <img src="data/Ziad Mansour.jpg" alt="Member 11">
+                    <div>
+                        <div class="name">Ziad Mansour</div>
+                        <!-- <div class="role">Role/Position</div> -->
+                    </div>
+                </div>
+                <!-- Team member 12 -->
+                <!-- <div class="team-member">
+                    <img src="path/to/member12-photo.jpg" alt="Member 12">
+                    <div>
+                        <div class="name">Member Name 12</div>
+                        <div class="role">Role/Position</div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Supervisor section -->
+        <div class="supervisor-section">
+            <h3>Our Supervisor</h3>
+            <div class="supervisor">
+                <img src="data/Renada A.Tealab.jpg" alt="Supervisor">
+                <div>
+                    <div class="name">Renada A. Tealab</div>
+                    <!-- <div class="role">Supervisor</div> -->
+                </div>
+            </div>
+            <div class="supervisor">
+                <img src="data/Ahmed Hesham Aboseda.jpg" alt="Supervisor">
+                <div>
+                    <div class="name">Ahmed Hesham Aboseda</div>
+                    <!-- <div class="role">Supervisor</div> -->
+                </div>
+            </div>
+        </div>
     </div>
 <footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
 <script>
 const ownerTab = document.getElementById('owner-tab');
-if (ownerTab && localStorage.getItem('is_owner') !== 'true') {
+if (ownerTab && document.cookie.indexOf('is_owner=true') === -1) {
   ownerTab.style.display = 'none';
 }
 </script>
