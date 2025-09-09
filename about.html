@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>About Us — Ultra Pro Charger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* You can copy the style from the main page or customize it here */
+        :root{--bg:#0f1724;--card:rgba(255,255,255,0.04);--muted:#9aa3b2;--vol:#3AB0FF;--cur:#00E0A6;--energy:#9B8CFF;--temp:#FFB64D;--soc:#00E5D4;--time:#f39c12;--battery-low:#e74c3c;--battery-mid:#f39c12;--battery-high:#2ecc71;--battery-full:#00E5D4}
+
+        *{box-sizing:border-box}
+        body{
+            margin:0; font-family: "Cairo", sans-serif; background: linear-gradient(180deg,#09121a 0%, #0f1724 100%);
+            color:#eaf4ff; display:flex; flex-direction:column; align-items:center; padding:28px; min-height:100vh;
+            position: relative;
+            overflow-x: hidden;
+            padding: 0;
+        }
+
+        .navbar{display:flex;justify-content:space-around;align-items:center;background:#162335;padding:15px 30px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);font-family:'Cairo',sans-serif;width:100%}
+        .navbar .logo{font-size:20px;font-weight:bold;color:#00d4ff}.navbar .nav-links{list-style:none;display:flex;gap:25px}
+        .navbar .nav-links a{text-decoration:none;color:#ddd;font-weight:500;transition:0.3s;position:relative}
+        .navbar .nav-links a:hover,.navbar .nav-links .active{color:#00d4ff}
+        .navbar .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:#00d4ff;transition:0.3s}
+        .navbar .nav-links a:hover::after,.navbar .nav-links .active::after{width:100%}
+
+        .content {
+            width: 100%; max-width: 1000px; margin-top: 6%; padding: 20px; background: var(--card); border-radius: 14px; box-shadow: 0 6px 18px rgba(2,8,20,0.5);
+        }
+
+        h1 { color: #00d4ff; text-align: center; }
+        p { font-size: 16px; line-height: 1.6; color: #eaf4ff; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Ultra Pro Charger Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="about.html" class="active">About Us</a></li>
+            <li id="owner-tab"><a href="owner_panel.html">Owner Panel</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <h1>About Us</h1>
+        <p>Welcome! We are the Ultra Pro Charger team, specializing in developing smart battery charging systems. Our goal is to provide reliable and efficient solutions for energy management.</p>
+        <p>You can add more content here, such as company history, team, or vision.</p>
+        <!-- Add any additional HTML code here -->
+    </div>
+<footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
+<script>
+const ownerTab = document.getElementById('owner-tab');
+if (ownerTab && localStorage.getItem('is_owner') !== 'true') {
+  ownerTab.style.display = 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Ultra Pro Charger — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1724;--card:rgba(255,255,255,0.04);--muted:#9aa3b2;--vol:#3AB0FF;--cur:#00E0A6;--energy:#9B8CFF;--temp:#FFB64D;--soc:#00E5D4;--time:#f39c12;--battery-low:#e74c3c;--battery-mid:#f39c12;--battery-high:#2ecc71;--battery-full:#00E5D4;--cost:#FFD700}
+
+*{box-sizing:border-box}
+body{
+    margin:0; font-family: "Cairo", sans-serif; background: linear-gradient(180deg,#09121a 0%, #0f1724 100%);
+    color:#eaf4ff; display:flex; flex-direction:column; align-items:center; padding:28px; min-height:100vh;
+    position: relative; /* Necessary for pseudo-element positioning */
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+.navbar{display:flex;justify-content:space-around;align-items:center;background:#162335;padding:15px 30px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);font-family:'Cairo',sans-serif;width:100%}
+.navbar .logo{font-size:20px;font-weight:bold;color:#00d4ff}.navbar .nav-links{list-style:none;display:flex;gap:25px}
+.navbar .nav-links a{text-decoration:none;color:#ddd;font-weight:500;transition:0.3s;position:relative}
+.navbar .nav-links a:hover,.navbar .nav-links .active{color:#00d4ff}
+.navbar .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:#00d4ff;transition:0.3s}
+.navbar .nav-links a:hover::after,.navbar .nav-links .active::after{width:100%}
+.wrap{
+    width:100%; max-width:1000px; display:grid; grid-template-columns: 1fr 420px 1fr; gap:18px; align-items: center;
+    margin-top: 6% ;
+    
+  }
+  .card{
+    background:var(--card); border-radius:14px; padding:14px; display:flex; flex-direction:column;
+    align-items:center; gap:8px; min-height:120px; box-shadow: 0 6px 18px rgba(2,8,20,0.5); width: 100%; max-width: 240px;
+    margin-top: 3%;
+    /* ✅ Animation additions */
+    transform: scale(1);
+    transition: transform 0.5s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  .card:hover{
+    transform: scale(1.06);
+    box-shadow: 0 14px 34px #00E5D4;
+  }
+
+  .label{font-size:12px; color:var(--muted); letter-spacing:0.08em; text-transform: uppercase;}
+  .val{font-weight:700; font-size:22px}
+  .unit{font-size:12px; color:var(--muted)}
+  .center{grid-column: 2 / 3; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 0;}
+  
+  /* --- Animation modifications --- */
+  .car-wrap{
+    position: relative; width: 400px; height: 250px;
+    opacity: 0; /* Starts hidden */
+    animation: fadeIn 1.2s ease-out forwards; /* Appearance animation on load */
+    
+  }
+  .center{
+    transform: scale(1);
+    transition: transform 0.5s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  .center:hover{
+    transform: scale(1.06);
+  }
+  
+  .soc-big{
+    position:absolute; left:50%; top:45%; transform:translate(-50%,-50%); color:white; font-weight:900;
+    font-size:52px; text-shadow: 0 6px 24px rgba(0,0,0,0.8); pointer-events: none; text-align: center;
+    z-index: 10; /* To make the charge percentage appear above the battery */
+  }
+  .soc-sub{ font-size:14px; color:var(--muted); font-weight: 600; letter-spacing: 0.1em; }
+  footer{ margin-top:16px; color:#7f8b98; font-size:13px }
+  .gsvg{ width:150px; height:80px; display:block; }
+  .track, .fill{ stroke-width:10; fill:none; stroke-linecap:round; }
+  .track{ stroke: rgba(255,255,255,0.08); }
+  .fill{ transition: stroke-dashoffset 700ms cubic-bezier(.22,.9,.35,1), stroke 400ms; }
+  .left-col, .right-col{ display:flex; flex-direction:column; gap:18px; align-items:center; }
+  
+  /* ====== ANIMATION STYLES ====== */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.1; } 50% { transform: scale(1.05); opacity: 0.15; } }
+  @keyframes energy-flow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes flash-bang { 0%, 100% { opacity: 0; } 50% { opacity: 0.8; } }
+  
+  #ground-shadow { transform-origin: center; }
+  .charging-active #ground-shadow { animation: pulse 2.5s infinite ease-in-out; }
+  
+  #charging-flow { stroke-dasharray: 50 50; opacity: 0; transition: opacity 0.5s ease; }
+  .charging-active #charging-flow { opacity: 0.7; animation: energy-flow 1s linear infinite; }
+  
+  #full-charge-flash { opacity: 0; }
+  #full-charge-flash.flash { animation: flash-bang 0.8s ease-in-out; }
+
+  /* ====== BATTERY ANIMATION STYLES ====== */
+  .battery-container {
+    position: absolute;
+    width: 120px; /* Battery size */
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; /* To stay behind the large SOC text */
+    opacity: 0.7;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+  }
+
+  .battery-frame {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 6px;
+    rx: 8px;
+    ry: 8px;
+  }
+
+  .battery-cap {
+    fill: rgba(255, 255, 255, 0.3);
+    rx: 4px;
+    ry: 4px;
+  }
+
+  .battery-level {
+    fill: var(--battery-low); /* Default color */
+    transition: y 0.8s ease-out, height 0.8s ease-out, fill 0.4s ease-in-out;
+  }
+
+  /* Media Queries for responsiveness */
+  @media (max-width:920px){
+    .wrap{ grid-template-columns: 1fr; }
+    .center{ grid-column: auto; width:100%; order: -1; }
+    .car-wrap{ width:100%; max-width: 400px; height:auto; margin: 0 auto; }
+    .left-col, .right-col { width: 100%; flex-direction: row; justify-content: center; flex-wrap: wrap; }
+    .card { flex-grow: 1; min-width: 150px; }
+    .battery-container {
+      width: 100px; /* Reduce battery size on small screens */
+      height: 160px;
+    }
+      }
+    #footer{
+        margin-top: 2%;
+        margin-bottom: 5%;
+    }
+</style></head><body>
+<nav class="navbar"><div class="logo">Ultra Pro Charger Dashboard</div><ul class="nav-links"><li><a href="dashboard.html" class="active">Home</a></li><li><a href="about.html">About Us</a></li><li id="owner-tab"><a href="owner_panel.html">Owner Panel</a></li></ul></nav>
+<div class="wrap">
+    <!-- Left Column -->
+    <div class="left-col">
+      <div class="card" id="vol-card"><div class="label">Voltage</div><svg class="gsvg" viewBox="0 0 100 60"><path class="track" d="M10 50 A40 40 0 0 1 90 50"></path><path id="vol-fill" class="fill" d="M10 50 A40 40 0 0 1 90 50" stroke="var(--vol)"></path></svg><div class="val"><span id="voltage">--</span> <span class="unit">V</span></div></div>
+      <div class="card" id="cur-card"><div class="label">Current</div><svg class="gsvg" viewBox="0 0 100 60"><path class="track" d="M10 50 A40 40 0 0 1 90 50"></path><path id="cur-fill" class="fill" d="M10 50 A40 40 0 0 1 90 50" stroke="var(--cur)"></path></svg><div class="val"><span id="current">--</span> <span class="unit">A</span></div></div>
+      <div class="card" id="energy-card"><div class="label">Energy</div><svg class="gsvg" viewBox="0 0 100 60"><path class="track" d="M10 50 A40 40 0 0 1 90 50"></path><path id="energy-fill" class="fill" d="M10 50 A40 40 0 0 1 90 50" stroke="var(--energy)"></path></svg><div class="val"><span id="energy">--</span> <span class="unit">Wh</span></div></div>
+    </div>
+
+    <!-- Center -->
+    <div class="center">
+        <div class="car-wrap" id="car-container" aria-hidden="true">
+            <svg viewBox="0 0 400 250">
+              <defs>
+                  <linearGradient id="carBody" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#3ab0ff" /><stop offset="100%" stop-color="#00e5d4" /></linearGradient>
+                  <linearGradient id="carWindows" x1="0.5" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#a0f2ff" /><stop offset="100%" stop-color="#4ed8ff" /></linearGradient>
+                  <filter id="glow"><feGaussianBlur stdDeviation="7" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <ellipse id="ground-shadow" cx="200" cy="230" rx="130" ry="15" fill="#00e5d4" opacity="0.1" filter="url(#glow)"/>
+              <path id="charging-flow" d="M 150 250 Q 200 200 250 250" stroke="url(#carWindows)" stroke-width="4" fill="none"/>
+              <g fill="#1a242f"><circle cx="105" cy="195" r="30"/><circle cx="295" cy="195" r="30"/></g>
+              <g fill="#2c3a47"><circle cx="105" cy="195" r="15"/><circle cx="295" cy="195" r="15"/></g>
+              <path d="M 40 195 Q 50 120 120 120 L 280 120 Q 350 120 360 195 Z" fill="url(#carBody)" opacity="0.4"/>
+              <path d="M 120 120 Q 130 90 150 90 L 250 90 Q 270 90 280 120 Z" fill="url(#carWindows)" opacity="0.15" stroke="rgba(173, 216, 230, 0.4)" stroke-width="1"/>
+              <path d="M 80 130 C 120 125, 280 125, 320 130" stroke="rgba(255,255,255,0.1)" stroke-width="3" fill="none" /><path d="M 45 190 L 70 190" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.5" /><path d="M 330 190 L 355 190" stroke="#F44" stroke-width="4" stroke-linecap="round" opacity="0.5" />
+              <rect id="full-charge-flash" x="0" y="0" width="400" height="250" fill="white" rx="30"/>
+            </svg>
+
+            <!-- BATTERY ANIMATION SVG -->
+            <svg class="battery-container" viewBox="0 0 100 200">
+                <rect class="battery-frame" x="5" y="20" width="90" height="170" rx="8" ry="8"/>
+                <rect class="battery-cap" x="35" y="0" width="30" height="20" rx="4" ry="4"/>
+                <rect id="battery-level" class="battery-level" x="8" y="190" width="84" height="0" rx="4" ry="4"/>
+            </svg>
+            <div class="soc-big" id="soc-big">--</div>
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-col">
+      <div class="card" id="temp-card"><div class="label">Temperature</div><svg class="gsvg" viewBox="0 0 100 60"><path class="track" d="M10 50 A40 40 0 0 1 90 50"></path><path id="temp-fill" class="fill" d="M10 50 A40 40 0 0 1 90 50" stroke="var(--temp)"></path></svg><div class="val"><span id="temperature">--</span> <span class="unit">°C</span></div></div>
+      <div class="card" id="cost-card"><div class="label">Cost</div><svg class="gsvg" viewBox="0 0 100 60"><path class="track" d="M10 50 A40 40 0 0 1 90 50"></path><path id="cost-fill" class="fill" d="M10 50 A40 40 0 0 1 90 50" stroke="var(--cost)"></path></svg><div class="val"><span class="unit">$</span><span id="cost-val">--</span></div></div>
+      <div class="card" id="time-card"><div class="label">Charging Time</div><div style="font-size: 28px; color: var(--time); padding: 18px 0; font-weight: 700;"><span id="charging-time">--:--</span></div><div class="unit">H:M Remaining</div></div>
+    </div>
+  </div>
+<div id="target-soc-form" style="margin-top: 20px; text-align: center;">
+    <label for="target_soc">Target Charge Percentage (%):</label>
+    <input type="number" id="target_soc" name="target_soc" min="1" max="100" value="100">
+    <button onclick="setTargetSOC()">Set</button>
+</div>
+  <footer id="footer">Connecting to device...</footer>
+<footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
+<script>
+const STATUS_URL="http://192.168.43.100/status",POLL_MS=1500,BATTERY_CAPACITY_WH=5000;let wasCharging=false; // غير الـ IP
+function setupGauge(id){const p=document.getElementById(id);if(!p)return null;const l=p.getTotalLength();p.style.strokeDasharray=l;p.style.strokeDashoffset=l;return f=>{f=Math.max(0,Math.min(1,f));p.style.strokeDashoffset=(1-f)*l}}
+const setVol=setupGauge("vol-fill"),setCur=setupGauge("cur-fill"),setEnergy=setupGauge("energy-fill"),setTemp=setupGauge("temp-fill"),setCost=setupGauge("cost-fill");
+function setText(id,txt){const el=document.getElementById(id);if(el)el.textContent=txt}
+function mapToFraction(v,m){return Math.max(0,Math.min(1,(v||0)/m))}
+function updateBatteryAnimation(soc){const b=document.getElementById("battery-level");if(!b)return;const h=Math.max(0,(soc/100)*170),y=190-h;b.setAttribute("height",h);b.setAttribute("y",y);if(soc<20)b.setAttribute("fill","var(--battery-low)");else if(soc<60)b.setAttribute("fill","var(--battery-mid)");else if(soc<100)b.setAttribute("fill","var(--battery-high)");else b.setAttribute("fill","var(--battery-full)")}
+function applyData(d){if(!d)return;setText("voltage",d.voltage!==undefined?Number(d.voltage).toFixed(2):"--");setText("current",d.current!==undefined?Number(d.current).toFixed(2):"--");setText("energy",d.energy!==undefined?Number(d.energy).toFixed(2):"--");setText("temperature",d.temperature!==undefined?Number(d.temperature).toFixed(1):"--");setText("cost-val",d.cost!==undefined?Number(d.cost).toFixed(2):"--");const b=document.getElementById("soc-big");if(b&&d.soc!==undefined)b.innerHTML=`${d.soc}<span class="soc-sub">%</span>`;else if(b)b.innerHTML=`--<span class="soc-sub">SOC</span>`;if(setVol)setVol(mapToFraction(d.voltage,15));if(setCur)setCur(mapToFraction(d.current,50));if(setEnergy)setEnergy(mapToFraction(d.energy,BATTERY_CAPACITY_WH));if(setTemp)setTemp(mapToFraction((d.temperature||0)+20,100));if(setCost)setCost(mapToFraction(d.cost,BATTERY_CAPACITY_WH * (d.cost_rate || 0.001)));calculateAndDisplayChargingTime(d.current,d.voltage,d.soc);const car=document.getElementById("car-container"),isC=(d.current&&d.current>0.5&&d.soc!==undefined&&d.soc<100);if(isC)car.classList.add("charging-active");else car.classList.remove("charging-active");if(d.soc>=100&&wasCharging){const f=document.getElementById("full-charge-flash");f.classList.add("flash");setTimeout(()=>{f.classList.remove("flash")},800)}wasCharging=isC}
+function calculateAndDisplayChargingTime(c,v,s){const t=document.getElementById("charging-time");if(!t)return;if(!c||c<=0.1||s===undefined||s>=100){t.textContent="--:--";return}const p=c*v,r=BATTERY_CAPACITY_WH*((100-s)/100);if(p<=0){t.textContent="--:--";return}const h=r/p,H=Math.floor(h),M=Math.round((h-H)*60);t.textContent=`${String(H).padStart(2,"0")}:${String(M).padStart(2,"0")}`;}
+async function fetchStatus(){try{const r=await fetch(STATUS_URL,{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);const j=await r.json();applyData(j);document.getElementById("footer").textContent="Connected"}catch(e){document.getElementById("footer").textContent="Connection Error...";console.warn("Fetch error:",e)}}
+fetchStatus();setInterval(fetchStatus,POLL_MS);
+async function setTargetSOC() {
+    const target = document.getElementById('target_soc').value;
+    await fetch('http://192.168.43.100/set_target_soc', {  // غير الـ IP
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `target_soc=${target}`
+    });
+}
+const ownerTab = document.getElementById('owner-tab');
+if (ownerTab && localStorage.getItem('is_owner') !== 'true') {
+  ownerTab.style.display = 'none';
+}
+</script></body></html>

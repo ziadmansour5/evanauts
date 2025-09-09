@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Login — Ultra Pro Charger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f1724;--card:rgba(255,255,255,0.04);--muted:#9aa3b2;--primary:#00d4ff;}
+        body { margin:0; font-family: "Cairo", sans-serif; background: linear-gradient(180deg,#09121a 0%, #0f1724 100%); color:#eaf4ff; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; }
+        .container { background: var(--card); padding: 40px; border-radius: 14px; box-shadow: 0 6px 18px rgba(2,8,20,0.5); text-align: center; }
+        h1 { color: var(--primary); }
+        button { background: var(--primary); color: #fff; border: none; padding: 15px 30px; margin: 10px; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        button:hover { background: #00aaff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose User Type</h1>
+        <button onclick="window.location.href='user_login.html'">I am a User</button>
+        <button onclick="window.location.href='owner_login.html'">I am the Owner</button>
+    </div>
+<footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
+</body>
+</html>

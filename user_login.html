@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>User Login — Ultra Pro Charger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f1724;--card:rgba(255,255,255,0.04);--muted:#9aa3b2;--primary:#00d4ff;}
+        body { margin:0; font-family: "Cairo", sans-serif; background: linear-gradient(180deg,#09121a 0%, #0f1724 100%); color:#eaf4ff; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; }
+        .container { background: var(--card); padding: 40px; border-radius: 14px; box-shadow: 0 6px 18px rgba(2,8,20,0.5); width: 300px; }
+        h1 { color: var(--primary); text-align: center; }
+        form { display: flex; flex-direction: column; }
+        label { margin: 10px 0 5px; color: var(--muted); }
+        input { padding: 10px; border-radius: 5px; border: 1px solid var(--muted); background: #162335; color: #fff; }
+        button { background: var(--primary); color: #fff; border: none; padding: 15px; margin-top: 20px; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #00aaff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Login</h1>
+        <form action="http://192.168.43.100/user_submit" method="POST">  <!-- غير الـ IP -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <button type="submit">Register and Login</button>
+        </form>
+    </div>
+<footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
+</body>
+</html>

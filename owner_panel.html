@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Owner Panel — Ultra Pro Charger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0f1724;--card:rgba(255,255,255,0.04);--muted:#9aa3b2;--primary:#00d4ff;}
+        body { margin:0; font-family: "Cairo", sans-serif; background: linear-gradient(180deg,#09121a 0%, #0f1724 100%); color:#eaf4ff; display:flex; flex-direction:column; align-items:center; min-height:100vh; padding: 20px; }
+        .navbar{display:flex;justify-content:space-around;align-items:center;background:#162335;padding:15px 30px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.3);font-family:'Cairo',sans-serif;width:100%}
+        .navbar .logo{font-size:20px;font-weight:bold;color:#00d4ff}.navbar .nav-links{list-style:none;display:flex;gap:25px}
+        .navbar .nav-links a{text-decoration:none;color:#ddd;font-weight:500;transition:0.3s;position:relative}
+        .navbar .nav-links a:hover,.navbar .nav-links .active{color:#00d4ff}
+        .navbar .nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:#00d4ff;transition:0.3s}
+        .navbar .nav-links a:hover::after,.navbar .nav-links .active::after{width:100%}
+        .content { width: 100%; max-width: 1000px; margin-top: 20px; }
+        h1 { color: var(--primary); text-align: center; }
+        table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 14px; overflow: hidden; }
+        th, td { padding: 15px; text-align: center; border-bottom: 1px solid var(--muted); }
+        th { background: #162335; color: var(--primary); }
+        tr:hover { background: rgba(255,255,255,0.1); }
+    </style>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('auth') === 'success') {
+          localStorage.setItem('is_owner', 'true');
+        }
+        async function loadUsers() {
+            const response = await fetch('http://192.168.43.100/get_users');  // غير الـ IP
+            const users = await response.json();
+            const tableBody = document.getElementById('users-table-body');
+            tableBody.innerHTML = '';
+            let total = 0;
+            users.forEach(user => {
+                const row = `<tr><td>${user.name}</td><td>${user.phone}</td><td>${user.timestamp}</td><td>${user.voltage}</td><td>${user.current}</td><td>${user.energy}</td><td>${user.temperature}</td><td>${user.soc}</td><td>${user.cost.toFixed(2)}</td></tr>`;
+                tableBody.innerHTML += row;
+                total += user.cost;
+            });
+            document.getElementById('total-revenue').textContent = `Total Revenue: $${total.toFixed(2)}`;
+        }
+        window.onload = loadUsers;
+const ownerTab = document.getElementById('owner-tab');
+if (ownerTab && localStorage.getItem('is_owner') !== 'true') {
+  ownerTab.style.display = 'none';
+}
+async function setCostRate() {
+    const rate = document.getElementById('cost_rate').value;
+    await fetch('http://192.168.43.100/set_cost_rate', {  // غير الـ IP
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `cost_rate=${rate}`
+    });
+}
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Ultra Pro Charger Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li id="owner-tab"><a href="owner_panel.html" class="active">Owner Panel</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <h1>Owner Control Panel</h1>
+<div id="cost-rate-form" style="margin-top: 20px; text-align: center;">
+    <label for="cost_rate">Cost per Wh ($):</label>
+    <input type="number" id="cost_rate" name="cost_rate" min="0" step="0.0001" value="0.001">
+    <button onclick="setCostRate()">Set</button>
+</div>
+        <p id="total-revenue">Total Revenue: $0</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Entry Time</th>
+                    <th>Voltage</th>
+                    <th>Current</th>
+                    <th>Energy</th>
+                    <th>Temperature</th>
+                    <th>SOC</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <!-- The table will be filled here via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+<footer style="text-align:center; padding:10px;">evanauts &copy; 2025</footer>
+</body>
+</html>
